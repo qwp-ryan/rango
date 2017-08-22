@@ -15,7 +15,7 @@ I love django
 
 pycharm 免费版不能配置Django project，只能做一个python project ，手动生成虚拟环境，然后更改虚拟环境设置。
 
-
+pycharm 有很多好用的功能需要认真学习。
 
 
 
