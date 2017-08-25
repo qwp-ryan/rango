@@ -13,16 +13,16 @@
     <div>hey there partner <br /> </div>
 
     <div>
-    <% if categories %>
+    {% if categories %}
     <ul>
         {% for category in categories %}
             <li>{{category.name}}</li>
         {% endfor %}
     </ul>
         
-    <% else %>
+    {% else %}
         <strong> There are no categories present. </strong>
-    <% endif %>
+    {% endif %}
     </div>
 
     <div>
