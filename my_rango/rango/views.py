@@ -19,7 +19,7 @@ def about(Request):
 def show_category(request, category_name_slug):
     context_dict = {}
     try:
-        category = Category.object.get(slug = category_name_slug)
+        category = Category.objects.get(slug = category_name_slug)
         pages = Page.objects.filter(category = category)
         context_dict['pages'] = pages
         context_dict['category'] = category
