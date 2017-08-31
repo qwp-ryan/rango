@@ -58,18 +58,10 @@ class Project(models.Model):
     time_back = models.DateField(verbose_name='返回中国国境日期', )
     Members = models.ManyToManyField(Personal_information, verbose_name='出访人员')
     Task_detail = models.TextField(verbose_name='任务内容以及意义描述', )
-    log = models.TextField(verbose_name = '进度记录',default = self.category)
+    log = models.TextField(verbose_name = '进度记录', blank = True)
 #    url = models.URLField()
 #    views = models.IntegerField(default=0)
 #    likes = models.IntegerField(default = 0)
-
-    def put_log(self,*args, **kwargs):
-        if (self.category != self.log):
-            self.log.append(self.category)
-            self.log.append(timezone.now)
-            super(Project, self).save(*args, **kwargs)
-
-
 
 
     def __str__(self):
