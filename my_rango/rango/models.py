@@ -28,7 +28,7 @@ class Page(models.Model):
     title = models.CharField(max_length=128)
     url = models.URLField()
     views = models.IntegerField(default=0)
-    likes = models.IntegerField(default = 0)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -50,6 +50,11 @@ class Process(models.Model):
     def __str__(self):
         return self.name
 
+class Personal_information(models.Model):
+    name=models.CharField(verbose_name = '姓名',max_length=20)
+    def __str__(self):
+        return self.name
+
 class Project(models.Model):
     category = models.ForeignKey(Category)
     title = models.CharField(max_length=128)
@@ -63,6 +68,6 @@ class Project(models.Model):
 #    views = models.IntegerField(default=0)
 #    likes = models.IntegerField(default = 0)
 
-
     def __str__(self):
         return self.title
+

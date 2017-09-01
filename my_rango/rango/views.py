@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from rango.models import Category, Page
-
+from .put_log import put_log
 from django.http import HttpResponse
 
 def index(Request):
@@ -28,6 +28,11 @@ def show_category(request, category_name_slug):
         context_dict['pages'] = None
     return render(request,'rang/category.html',context_dict)
 
-def show_detail():
-    """修改"""
-   
+#def show_detail(request):
+#   old_tag = Page.objects.get(page=title)
+#    """修改"""
+#    if old_tag == new_tag:
+#        content = content + msg
+#
+#    else:
+#        content = content + timezone.now + new_tag
