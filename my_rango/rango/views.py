@@ -27,3 +27,7 @@ def show_category(request, category_name_slug):
         context_dict['category'] = None
         context_dict['pages'] = None
     return render(request,'rang/category.html',context_dict)
+
+def show_detail():
+    """修改"""
+   
