@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from rango.models import Category, Page
+from rango.forms import CategoryForm
 from .put_log import put_log
 from django.http import HttpResponse
 
@@ -28,6 +29,16 @@ def show_category(request, category_name_slug):
         context_dict['pages'] = None
     return render(request,'rang/category.html',context_dict)
 
+def add_category(request):
+    form=CategoryForm
+
+    if form.is_valid():
+        form.save(commit=True)
+        return index(request)
+    else:
+        print(form.errors)
+
+    return render(request,'rang/add_category.html',{'form':form})
 #def show_detail(request):
 #   old_tag = Page.objects.get(page=title)
 #    """修改"""
