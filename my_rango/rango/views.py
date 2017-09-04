@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from rango.models import Category, Page
-from rango.forms import CategoryForm
+from .models import Category, Page
+from .forms import CategoryForm, PageForm
 from .put_log import put_log
 from django.http import HttpResponse
 
@@ -50,6 +50,22 @@ def add_category(request):
 #
 #    else:
 #        content = content + timezone.now + new_tag
+def add_page(request):
+    form=PageForm()
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+
+        if form.is_valid():
+            cat=form.save(commit=True)
+            return index(request)
+        else:
+            print(form.errors)
+
+    return render(request,'rang/add_page.html',{'form':form})
+
+
+
 
 def add_Project(request):
     form=CategoryForm()
