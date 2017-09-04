@@ -30,13 +30,16 @@ def show_category(request, category_name_slug):
     return render(request,'rang/category.html',context_dict)
 
 def add_category(request):
-    form=CategoryForm
+    form=CategoryForm()
 
-    if form.is_valid():
-        form.save(commit=True)
-        return index(request)
-    else:
-        print(form.errors)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            cat=form.save(commit=True)
+            return index(request)
+        else:
+            print(form.errors)
 
     return render(request,'rang/add_category.html',{'form':form})
 #def show_detail(request):
@@ -47,3 +50,17 @@ def add_category(request):
 #
 #    else:
 #        content = content + timezone.now + new_tag
+
+def add_Project(request):
+    form=CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            cat=form.save(commit=True)
+            return index(request)
+        else:
+            print(form.errors)
+
+    return render(request,'rang/add_category.html',{'form':form})

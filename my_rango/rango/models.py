@@ -35,20 +35,13 @@ class Page(models.Model):
 
 
 class Process(models.Model):
-    name = models.CharField(max_length=128, unique=True)
+    states = models.CharField(max_length=128, unique=True)
 #    views = models.IntegerField(default=0)
 #    likes = models.IntegerField(default=0)
-
-    slug = models.SlugField(blank=True, unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Process, self).save(*args, **kwargs)
-
 #    class Meta:
 #        verbose_name_plural = 'Categories'
     def __str__(self):
-        return self.name
+        return self.states
 
 class Personal_information(models.Model):
     name=models.CharField(verbose_name = '姓名',max_length=20)
