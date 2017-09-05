@@ -50,21 +50,28 @@ def add_category(request):
 #
 #    else:
 #        content = content + timezone.now + new_tag
-def add_page(request):
+def add_page(request, category_name_slug):
+    try:
+        category=Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        category = None
+
+
     form=PageForm()
 
     if request.method == 'POST':
         form = PageForm(request.POST)
-
         if form.is_valid():
-            cat=form.save(commit=True)
-            return index(request)
+            if category:
+                page=form.save(commit=False)
+                page.category=category
+                page.views=0
+                page.save()
+                return show_category(request, category_name_slug)
         else:
             print(form.errors)
-
-    return render(request,'rang/add_page.html',{'form':form})
-
-
+    context_dict={'form': form, 'category':category}
+    return render(request,'rang/add_page.html',context_dict)
 
 
 def add_Project(request):
