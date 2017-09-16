@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from .models import Category, Page
 from .forms import CategoryForm, PageForm
 from .put_log import put_log
