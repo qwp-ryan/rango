@@ -64,7 +64,7 @@ class Project(models.Model):
     aim = models.CharField(max_length=500)
     task_detail = models.CharField(max_length=500)
     schedule = models.CharField(max_length=500)
-    
+
 #    log = models.TextField(verbose_name = '进度记录', blank = True)
 #    url = models.URLField()
 #    views = models.IntegerField(default=0)

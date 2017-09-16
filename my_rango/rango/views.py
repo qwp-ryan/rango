@@ -10,13 +10,15 @@ from django.http import HttpResponse
 def index(Request):
     category_list = Category.objects.order_by('-likes')[:5]
     context_dict={'categories':category_list}
-    return render(Request, 'rang/index.html', context = context_dict)
+    return render(Request, 'rang/index_1.html', context = context_dict)
 #    return HttpResponse("Rango says hey there partner! <br/> <a href='/rango/about/'> About </a>")
 
 def about(Request):
+    print(Request.method)
+    print(Request.user)
     context_dict={'newmessage': "about page of Django!"}
     #return render(Request, 'rang/about.html', context = context_dict)
-    return render(Request, 'rang/about.html', context=context_dict)
+    return render(Request, 'rang/about_1.html', context=context_dict)
 
     #return HttpResponse("Rango says here is the about page <br/> <a href='/rango/'> Index </a>")
 def show_category(request, category_name_slug):
@@ -29,7 +31,7 @@ def show_category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['category'] = None
         context_dict['pages'] = None
-    return render(request,'rang/category.html',context_dict)
+    return render(request,'rang/category_1.html',context_dict)
 
 def add_category(request):
     form=CategoryForm()
@@ -43,15 +45,8 @@ def add_category(request):
         else:
             print(form.errors)
 
-    return render(request,'rang/add_category.html',{'form':form})
-#def show_detail(request):
-#   old_tag = Page.objects.get(page=title)
-#    """修改"""
-#    if old_tag == new_tag:
-#        content = content + msg
-#
-#    else:
-#        content = content + timezone.now + new_tag
+    return render(request,'rang/add_category_1.html',{'form':form})
+
 def add_page(request, category_name_slug):
     try:
         category=Category.objects.get(slug=category_name_slug)
@@ -73,7 +68,7 @@ def add_page(request, category_name_slug):
         else:
             print(form.errors)
     context_dict={'form': form, 'category':category}
-    return render(request,'rang/add_page.html',context_dict)
+    return render(request,'rang/add_page_1.html',context_dict)
 
 
 def add_Project(request):
@@ -88,4 +83,4 @@ def add_Project(request):
         else:
             print(form.errors)
 
-    return render(request,'rang/add_category.html',{'form':form})
+    return render(request,'rang/add_category_1.html',{'form':form})

@@ -1,0 +1,48 @@
+{% extends 'rang/base1.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+About the rango project
+{% endblock %}
+
+{% block body_block %}
+ <h1> Rango says ..... <h1>
+         <div>
+             this is about page of django
+             <strong>{{ boldmessage }} </strong><br />
+             <strong>{{newmessage}}</strong>
+         </div>
+     <div>
+          <img src="{% static 'images/qjj.jpg' %}" height = "400" translate="yes"
+          alt="Picture of qjj" />
+     </div>
+{% endblock %}
+
+
+<!--
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About the rango project</title>
+</head>
+<body>
+     <h1> Rango says ..... <h1>
+         <div>
+             this is about page of django
+             <strong>{{ boldmessage }} </strong><br />
+             <strong>{{newmessage}}</strong>
+         </div>
+         <div>
+             <a href ="/rango/index">Index</a> <br/>
+             <a href="{%url 'index'%}" >Index</a>
+         <div>
+          <img  id="{height:400; transform:rotate(-90deg);}" src="{% static 'images/qjj.jpg' %}"
+                 alt="Picture of qjj" />
+             <img src="{% static 'images/qjj.jpg' %}" height = "400" translate="yes"
+                 alt="Picture of qjj" />
+         </div>
+
+</body>
+</html>
+     -->
