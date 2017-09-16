@@ -61,7 +61,10 @@ class Project(models.Model):
     time_back = models.DateField(verbose_name='返回中国国境日期', )
 #    Members = models.ManyToManyField(Personal_information, verbose_name='出访人员')
     Task_detail = models.TextField(verbose_name='任务内容以及意义描述', )
-     
+    aim = models.CharField(max_length=500)
+    task_detail = models.CharField(max_length=500)
+    schedule = models.CharField(max_length=500)
+    
 #    log = models.TextField(verbose_name = '进度记录', blank = True)
 #    url = models.URLField()
 #    views = models.IntegerField(default=0)
