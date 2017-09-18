@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, reverse
 from .models import Category, Page
 from .forms import CategoryForm, PageForm
+from .forms import UserForm, UserProfileForm
 from .put_log import put_log
 from django.http import HttpResponse
 
@@ -84,3 +85,16 @@ def add_Project(request):
             print(form.errors)
 
     return render(request,'rang/add_category_1.html',{'form':form})
+
+def register(request):
+    registered=False
+    if request.method=='POST':
+        user_form=UserForm(data=request.POST)
+        profile_form=UserProfileForm(data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user= user_form.save()
+            user.set_password(user.password)
+            user.save()
+            profile=profile_form.save(commit=False)
+            profile.user=user
+            
