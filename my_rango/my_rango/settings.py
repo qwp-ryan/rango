@@ -89,10 +89,10 @@ DATABASES = {
     }
 }
 PASSWORD_HASHERS=(
-    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-    'django.contrib.auth.hashers.BCryptPasswordHasher',
-    'django.contrib.auth.hashers.PBKD2PasswoedHasher',
-    'django.contrib.auth.hashers.PBKD2SHA1PasswordHasher',
+#    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+#    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 )
 
 # Password validation

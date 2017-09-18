@@ -6,7 +6,9 @@ from .models import Category, Page
 from .forms import CategoryForm, PageForm
 from .forms import UserForm, UserProfileForm
 from .put_log import put_log
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import authenticate, login
+from django.core.urlresolvers import reverse
 
 def index(Request):
     category_list = Category.objects.order_by('-likes')[:5]
@@ -97,4 +99,35 @@ def register(request):
             user.save()
             profile=profile_form.save(commit=False)
             profile.user=user
-            
+            if 'picture' in request.FILES:
+                profile.picture=request.FILES['picture']
+            profile.save()
+            registered=True
+        else:
+            print(user_form.errors, profile_form.errors)
+    else:
+        user_form=UserForm()
+        profile_form=UserProfileForm()
+    return render(request,
+                  'rang/register.html',
+                  {'user_form':user_form,
+                   'profile_form':profile_form,
+                   'registered':registered})
+
+
+def user_login(request):
+    if request.method=='POST':
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        user=authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                return HttpResponse("Your Rango account is disabled")
+        else:
+            print("Invalid login details:{0},{1}".format(username, password))
+            return HttpResponse("Invalid login details supplied")
+    else:
+        return render(request, 'rang/login.html',{})
