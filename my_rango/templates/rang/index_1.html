@@ -9,7 +9,13 @@ Rango
 
 {% block body_block %}
     <h1> Rango says .... </h1>
-    <div>hey there partner new 2017-9-16<br /> </div>
+    <div>hey
+        {% if user.is_authenticated %}
+        howdy {{user.username}}!
+        {% else %}
+        hey there partner!
+        {% endif %}
+        <br /> </div>
 
     <div>
     {% if categories %}

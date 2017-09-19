@@ -9,6 +9,9 @@ from .put_log import put_log
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+
 
 def index(Request):
     category_list = Category.objects.order_by('-likes')[:5]
@@ -131,3 +134,12 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied")
     else:
         return render(request, 'rang/login.html',{})
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
