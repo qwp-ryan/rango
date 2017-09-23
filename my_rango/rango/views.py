@@ -18,13 +18,12 @@ def index(Request):
 #    Request.session.set_test_cookie()
     category_list = Category.objects.order_by('-likes')[:5]
     page_list=Page.objects.order_by('-views')[:5]
-
     context_dict={'categories':category_list,'pages':page_list}
-    response=render(Request.'rang/index_1.html',context_dict)
-    visitor_cookie_handler(request,response)
-    reture response
+    response=render(Request,'rang/index_1.html',context_dict)
+    visitor_cookie_handler(Request,response)
+    return response
 
-    return render(Request, 'rang/index_1.html', context = context_dict)
+#    return render(Request, 'rang/index_1.html', context = context_dict)
 #    return HttpResponse("Rango says hey there partner! <br/> <a href='/rango/about/'> About </a>")
 
 def about(Request):
