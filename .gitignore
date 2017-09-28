@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 db.sqlite3
+my_rango/db.sqlite3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -102,3 +103,4 @@ ENV/
 # mypy
 .mypy_cache/
 
+/my_rango/db.sqlite3
