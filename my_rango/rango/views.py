@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, reverse
 from .models import Category, Page
+from .models_p import PassportInformation, VisaInformation
+from .forms import PassportInformationForm, VisaInformationForm
 from .forms import CategoryForm, PageForm
 from .forms import UserForm, UserProfileForm
 from .put_log import put_log
@@ -169,5 +171,73 @@ def visitor_cookie_handler(request,response):
         response.set_cookie('last_visit',last_visit_cookie)
 
     response.set_cookie('visits',visits)
+
+
+def add_passort(Request, response):
+    passport_list = PassportInformation.objects.order_by('-date_expire')[:]
+    visa_list=VisaInformation.objects.order_by('-issue_date')[:]
+    context_dict={'passports':passport_list, 'visas':visa_list}
+    response=render(Request,'rang/index_2.html', context_dict)
+    visitor_cookie_handler(Request,response)
+    return response
+
+
+def show_passport(request, passport_number):
+    context_dict = {}
+    try:
+        passport = PassportInformation.objects.get(passport_number = passport_number)
+        pages = Page.objects.filter(category = category)
+        context_dict['pages'] = pages
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        context_dict['category'] = None
+        context_dict['pages'] = None
+    return render(request,'rang/category_1.html',context_dict)
+
+def add_category(request):
+    form=CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            cat=form.save(commit=True)
+            return index(request)
+        else:
+            print(form.errors)
+
+    return render(request,'rang/add_category_1.html',{'form':form})
+
+def add_page(request, category_name_slug):
+    try:
+        category=Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        category = None
+
+
+    form=PageForm()
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if category:
+                page=form.save(commit=False)
+                page.category=category
+                page.views=0
+                page.save()
+                return show_category(request, category_name_slug)
+        else:
+            print(form.errors)
+    context_dict={'form': form, 'category':category}
+    return render(request,'rang/add_page_1.html',context_dict)
+
+
+def shou_passport(Request, response):
+
+
+def add_visa(request, response):
+
+
+def Passport_index(request, response):
 
 
