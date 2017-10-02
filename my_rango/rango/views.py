@@ -3,11 +3,10 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, reverse
 from .models import Category, Page
-from .models_p import PassportInformation, VisaInformation
+from .models import PassportInformation, VisaInformation
 from .forms import PassportInformationForm, VisaInformationForm
 from .forms import CategoryForm, PageForm
 from .forms import UserForm, UserProfileForm
-from .put_log import put_log
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
@@ -173,32 +172,33 @@ def visitor_cookie_handler(request,response):
     response.set_cookie('visits',visits)
 
 
-def add_passort(Request, response):
+def passport_index(Request):
     passport_list = PassportInformation.objects.order_by('-date_expire')[:]
     visa_list=VisaInformation.objects.order_by('-issue_date')[:]
     context_dict={'passports':passport_list, 'visas':visa_list}
-    response=render(Request,'rang/index_2.html', context_dict)
-    visitor_cookie_handler(Request,response)
+    response=render(Request,'rang/passport_index.html', context_dict)
+    visitor_cookie_handler(Request, response)
     return response
 
 
 def show_passport(request, passport_number):
     context_dict = {}
     try:
-        passport = PassportInformation.objects.get(passport_number = passport_number)
-        pages = Page.objects.filter(category = category)
-        context_dict['pages'] = pages
-        context_dict['category'] = category
-    except Category.DoesNotExist:
-        context_dict['category'] = None
-        context_dict['pages'] = None
-    return render(request,'rang/category_1.html',context_dict)
+        passport = PassportInformation.objects.get(passport_number=passport_number)
+        visas = VisaInformation.objects.filter(passport=passport)
+        context_dict['visas'] = visas
+        context_dict['passport'] = passport
+    except passport.DoesNotExist:
+        context_dict['passport'] = None
+        context_dict['visas'] = None
+    return render(request,'rang/passport.html', context_dict)
 
-def add_category(request):
-    form=CategoryForm()
+
+def add_passport(request):
+    form = PassportInformationForm()
 
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = PassportInformationForm(request.POST)
 
         if form.is_valid():
             cat=form.save(commit=True)
@@ -206,38 +206,26 @@ def add_category(request):
         else:
             print(form.errors)
 
-    return render(request,'rang/add_category_1.html',{'form':form})
+    return render(request,'rang/add_passport.html',{'form':form})
 
-def add_page(request, category_name_slug):
+
+def add_visa(request, passport_number):
     try:
-        category=Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist:
-        category = None
-
-
-    form=PageForm()
-
+        passport=PassportInformation.objects.get(pussport_number=passport_number)
+    except passport.DoesNotExist:
+        passport = None
+    form = VisaInformationForm()
     if request.method == 'POST':
-        form = PageForm(request.POST)
+        form = VisaInformationForm(request.POST)
         if form.is_valid():
-            if category:
-                page=form.save(commit=False)
-                page.category=category
-                page.views=0
-                page.save()
-                return show_category(request, category_name_slug)
+            if passport:
+                visa=form.save(commit=False)
+                visa.passport_number=passport_number
+                visa.save()
+                return show_passport(request, passport_number)
         else:
             print(form.errors)
-    context_dict={'form': form, 'category':category}
-    return render(request,'rang/add_page_1.html',context_dict)
-
-
-def shou_passport(Request, response):
-
-
-def add_visa(request, response):
-
-
-def Passport_index(request, response):
+    context_dict={'form': form, 'passport':passport}
+    return render(request,'rang/add_visa.html',context_dict)
 
 

@@ -1,6 +1,7 @@
 from django import forms
-from .models import Page, Category, UserProfile
-from .models_p import PassportInformation, VisaInformation
+from .choices import *
+from .models import * #Page, Category, UserProfile
+#from .models import PassportInformation, VisaInformation
 from django.contrib.auth.models import User
 
 class CategoryForm(forms.ModelForm):
@@ -51,6 +52,44 @@ class UserProfileForm(forms.ModelForm):
 
 
 class PassportInformationForm(forms.ModelForm):
+    # GENDER_CHOICES = (
+    #     ('M', 'Male'),
+    #     ('F', 'Female'),
+    # )
+    # PLACE_CHOICES = (
+    #     ('SH', '上海市'),
+    #     ('BJ', '北京市'),
+    #     ('SD', '山东省'),
+    #     ('HL', '黑龙江省'),
+    #     ('JL', '吉林省'),
+    #     ('LN', '辽宁省'),
+    #     ('HB', '河北省'),
+    #     ('NM', '内蒙古自治区'),
+    #     ('TJ', '天津市'),
+    #     ('SX', '山西省'),
+    #     ('SH', '陕西省'),
+    #     ('GS', '甘肃省'),
+    #     ('XJ', '新疆维吾尔自治区'),
+    #     ('QH', '青海省'),
+    #     ('HE', '河南省'),
+    #     ('NX', '宁夏回族自治区'),
+    #     ('XZ', '西藏自治区'),
+    #     ('SC', '四川省'),
+    #     ('BH', '湖北省'),
+    #     ('HU', '湖南省'),
+    #     ('JS', '江苏省'),
+    #     ('ZJ', '浙江省'),
+    #     ('AH', '安徽省'),
+    #     ('FJ', '福建省'),
+    #     ('YN', '云南省'),
+    #     ('GZ', '贵州省'),
+    #     ('GD', '广东省'),
+    #     ('GX', '广西壮族自治区'),
+    #     ('CQ', '重庆市'),
+    #     ('HA', '海南省'),
+    #     ('JX', '江西省'),
+    #     ('JW', '境外')
+    # )
     name = forms.CharField(max_length = 10, )# help_text = "Please enter the name of the Passport.")
     birth_date = forms.DateField(label='出生日期')
     birth_place = forms.ChoiceField(label='出生地', choices=PLACE_CHOICES)
@@ -65,8 +104,12 @@ class PassportInformationForm(forms.ModelForm):
 
 
 class VisaInformationForm(forms.ModelForm):
+    # visa_choices = (
+    #     ('A', '一次入境签证'),
+    #     ('B', '多次入境签证'),
+    # )
     country = forms.CharField(label='国家', max_length=20)
     issue_date = forms.DateField(label='颁发日期')
     expire_date = forms.DateField(label='过期日期')
     visa_class = forms.ChoiceField(label='签证类型', choices=visa_choices)
-    visa_file = forms.FileField(label='签证扫描件', upload_to='upload/%Y/%m/')
+    visa_file = forms.FileField(label='签证扫描件')
