@@ -17,5 +17,6 @@ class PageAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Page,PageAdmin)
 admin.site.register(UserProfile)
+admin.site.register(PersonalInformation)
 admin.site.register(PassportInformation)
 admin.site.register(VisaInformation)

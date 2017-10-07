@@ -47,11 +47,29 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-class PassportInformation(models.Model):
-    name = models.CharField(verbose_name='姓名', max_length=10)
-    birth_date = models.DateField(verbose_name='出生日期')
-    birth_place = models.CharField(verbose_name='出生地', max_length=2, choices=PLACE_CHOICES)
+class PersonalInformation(models.Model):
+    name=models.CharField(verbose_name='姓名', max_length=10)
+    tel = models.CharField(verbose_name='电话', max_length=12)
+    email = models.EmailField()
     gender = models.CharField(verbose_name='性别', max_length=1, choices=GENDER_CHOICES)
+    department = models.CharField(verbose_name='所在部门', max_length=30)
+    ID_num = models.CharField(verbose_name='18位身份证号', max_length=18)
+    Place_of_Birth = models.CharField(verbose_name='出生地（省）', max_length=2, choices=PLACE_CHOICES)
+    Date_of_Birth = models.DateField(verbose_name='出生日期', null=True, blank=True)
+    duty = models.CharField(verbose_name='职务', max_length=1, choices=duty_choices)
+    identity = models.CharField(verbose_name='对外身份', max_length=1, choices=identity_choices)
+    race = models.CharField(verbose_name='民族', max_length =2, choices=race_choices)
+    political_identity = models.CharField(verbose_name='政治面貌', max_length=2, choices=political_choices)
+    securety = models.CharField(verbose_name='涉密等级', max_length=1, choices=securety_choices)
+    status_health = models.CharField(verbose_name='健康状况', max_length=1, choices=health_choices)
+    emergency_contact_name = models.CharField(verbose_name='紧急联系人姓名', max_length=10)
+    emergency_contact_tel = models.CharField(max_length=11)
+    def __str__(self):
+        return self.name
+
+
+class PassportInformation(models.Model):
+    person = models.ForeignKey(PersonalInformation)
     passport_number = models.CharField(verbose_name='护照号码', max_length=15, unique=True)
     date_issue = models.DateField(verbose_name='颁发日期')
     date_expire = models.DateField(verbose_name='过期日期')
@@ -60,12 +78,8 @@ class PassportInformation(models.Model):
     date_out = models.DateField(verbose_name='借出日期', null=True, blank=True)
     date_back = models.DateField(verbose_name='归还日期', null=True, blank=True)
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.Passport_number)
-    #     super(PassportInformation, self).save(*args, **kwargs)
-
     def __str__(self):
-        return self.name
+        return self.passport_number
 
 
 class VisaInformation(models.Model):

@@ -1,10 +1,13 @@
-import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                      'my_rango.settings')
 
+
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_rango.settings')
 import django
 django.setup()
-from rango.models import Category, Page
+from rango.models import Category, Page, PersonalInformation, PassportInformation, VisaInformation
+
+import pandas as pd
+
 
 def populate():
     python_pages = [
@@ -68,7 +71,35 @@ def add_cat(name):
     c.save()
     return c
 
+
+def populateforeign():
+    pf = pd.read_excel('data.xlsx')
+    for index, row in pf.iterrows():
+        p = PersonalInformation.objects.get_or_create(tel=row['tel'])[0]
+        p.name = row['name']
+        p.tel = row.tel
+        p.email = row.email
+        p.gender = row.gender
+        p.department = row.department
+        p.ID_num = row.ID_num
+        p.Place_of_Birth = row.place_birth
+        p.Date_of_Birth = row.date_birth #pd.Period(row['date_birth'],freq='D')
+        p.duty = row.duty
+        p.identity = row.identity
+        p.race = row.race
+        p.political_identity = row.political_identity
+        p.securety = row.securety
+        p.status_health = row.status_health
+        p.emergency_contact_name = row.emergency_contact_name
+        p.emergency_contact_tel = row.emergency_contact_tel
+        p.save()
+    return p
+
+
+
+
 if __name__ == '__main__':
     print ("Starting Rango population script ...")
     populate()
+    populateforeign()
 

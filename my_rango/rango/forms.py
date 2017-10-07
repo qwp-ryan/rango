@@ -50,50 +50,26 @@ class UserProfileForm(forms.ModelForm):
 #  我们自己的外事系统的forms
 #
 
+class PersonalInfromationForm(forms.ModelForm):
+    name = forms.CharField(label='姓名', max_length=10)
+    tel = forms.CharField(label='电话', max_length=12)
+    email = forms.EmailField()
+    gender = forms.ChoiceField(label='性别', choices=GENDER_CHOICES)
+    department = forms.CharField(label='所在部门', max_length=30)
+    ID_num = forms.CharField(label='18位身份证号', max_length=18)
+    Place_of_Birth = forms.ChoiceField(label='出生地（省）', choices=PLACE_CHOICES)
+    Date_of_Birth = forms.DateField(label='出生日期')
+    duty = forms.ChoiceField(label='职务', choices=duty_choices)
+    identity = forms.ChoiceField(label='对外身份', choices=identity_choices)
+    race = forms.ChoiceField(label='民族', choices=race_choices)
+    political_identity = forms.ChoiceField(label='政治面貌', choices=political_choices)
+    securety = forms.ChoiceField(label='涉密等级', choices=securety_choices)
+    status_health = forms.ChoiceField(label='健康状况', choices=health_choices)
+    emergency_contact_name = forms.CharField(label='紧急联系人姓名', max_length=10)
+    emergency_contact_tel = forms.CharField(label='紧急联系人电话', max_length=11)
+
 
 class PassportInformationForm(forms.ModelForm):
-    # GENDER_CHOICES = (
-    #     ('M', 'Male'),
-    #     ('F', 'Female'),
-    # )
-    # PLACE_CHOICES = (
-    #     ('SH', '上海市'),
-    #     ('BJ', '北京市'),
-    #     ('SD', '山东省'),
-    #     ('HL', '黑龙江省'),
-    #     ('JL', '吉林省'),
-    #     ('LN', '辽宁省'),
-    #     ('HB', '河北省'),
-    #     ('NM', '内蒙古自治区'),
-    #     ('TJ', '天津市'),
-    #     ('SX', '山西省'),
-    #     ('SH', '陕西省'),
-    #     ('GS', '甘肃省'),
-    #     ('XJ', '新疆维吾尔自治区'),
-    #     ('QH', '青海省'),
-    #     ('HE', '河南省'),
-    #     ('NX', '宁夏回族自治区'),
-    #     ('XZ', '西藏自治区'),
-    #     ('SC', '四川省'),
-    #     ('BH', '湖北省'),
-    #     ('HU', '湖南省'),
-    #     ('JS', '江苏省'),
-    #     ('ZJ', '浙江省'),
-    #     ('AH', '安徽省'),
-    #     ('FJ', '福建省'),
-    #     ('YN', '云南省'),
-    #     ('GZ', '贵州省'),
-    #     ('GD', '广东省'),
-    #     ('GX', '广西壮族自治区'),
-    #     ('CQ', '重庆市'),
-    #     ('HA', '海南省'),
-    #     ('JX', '江西省'),
-    #     ('JW', '境外')
-    # )
-    name = forms.CharField(max_length = 10, )# help_text = "Please enter the name of the Passport.")
-    birth_date = forms.DateField(label='出生日期')
-    birth_place = forms.ChoiceField(label='出生地', choices=PLACE_CHOICES)
-    gender = forms.ChoiceField(label='性别', choices=GENDER_CHOICES)
     Passport_number = forms.CharField(label='护照号码', max_length=15)
     date_issue = forms.DateField(label='颁发日期')
     date_expire = forms.DateField(label='过期日期')

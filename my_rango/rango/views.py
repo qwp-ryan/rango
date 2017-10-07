@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, reverse
 from .models import Category, Page
-from .models import PassportInformation, VisaInformation
-from .forms import PassportInformationForm, VisaInformationForm
+from .models import PassportInformation, VisaInformation, PersonalInformation
+from .forms import PassportInformationForm, VisaInformationForm, PersonalInfromationForm
 from .forms import CategoryForm, PageForm
 from .forms import UserForm, UserProfileForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -39,6 +39,8 @@ def about(Request):
     return render(Request, 'rang/about_1.html', context=context_dict)
 
     #return HttpResponse("Rango says here is the about page <br/> <a href='/rango/'> Index </a>")
+
+
 def show_category(request, category_name_slug):
     context_dict = {}
     try:
@@ -50,6 +52,7 @@ def show_category(request, category_name_slug):
         context_dict['category'] = None
         context_dict['pages'] = None
     return render(request,'rang/category_1.html',context_dict)
+
 
 def add_category(request):
     form=CategoryForm()
@@ -64,6 +67,7 @@ def add_category(request):
             print(form.errors)
 
     return render(request,'rang/add_category_1.html',{'form':form})
+
 
 def add_page(request, category_name_slug):
     try:
@@ -172,16 +176,26 @@ def visitor_cookie_handler(request,response):
     response.set_cookie('visits',visits)
 
 
-def passport_index(Request):
-    passport_list = PassportInformation.objects.order_by('-date_expire')[:]
-    visa_list=VisaInformation.objects.order_by('-issue_date')[:]
-    context_dict={'passports':passport_list, 'visas':visa_list}
-    response=render(Request,'rang/passport_index.html', context_dict)
-    visitor_cookie_handler(Request, response)
+def person_index(Request):
+    Person_list = PersonalInformation.objects.order_by('name')[:]
+    context_dict = {'Persons':Person_list}
+    response = render(Request,'rang/index_1.html',context_dict)
     return response
 
 
-def show_passport(request, passport_number):
+def show_passport(request, Id_num):
+    context_dict = {}
+    try:
+        person = PersonalInformation.objects.get(Id_num=Id_num)
+        passports = PassportInformation.objects.filter(person=person)
+        context_dict['passports'] = passports
+        context_dict['person'] = person
+    except person.DoesNotExist:
+        context_dict['passport'] = None
+        context_dict['visas'] = None
+    return render(request,'rang/passport.html', context_dict)
+
+def show_visa(request, passport_number):
     context_dict = {}
     try:
         passport = PassportInformation.objects.get(passport_number=passport_number)
