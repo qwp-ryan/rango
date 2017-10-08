@@ -64,15 +64,16 @@ class PersonalInformation(models.Model):
     status_health = models.CharField(verbose_name='健康状况', max_length=1, choices=health_choices)
     emergency_contact_name = models.CharField(verbose_name='紧急联系人姓名', max_length=10)
     emergency_contact_tel = models.CharField(max_length=11)
+
     def __str__(self):
         return self.name
 
 
 class PassportInformation(models.Model):
-    person = models.ForeignKey(PersonalInformation)
-    passport_number = models.CharField(verbose_name='护照号码', max_length=15, unique=True)
-    date_issue = models.DateField(verbose_name='颁发日期')
-    date_expire = models.DateField(verbose_name='过期日期')
+    person = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE)
+    passport_number = models.CharField(verbose_name='护照号码', max_length=15)
+    date_issue = models.DateField(verbose_name='颁发日期', null=True, blank=True)
+    date_expire = models.DateField(verbose_name='过期日期', null=True, blank=True)
     issue_office = models.CharField(verbose_name='发证机关', max_length=15)
     issue_place = models.CharField(verbose_name='发证地点', max_length=15)
     date_out = models.DateField(verbose_name='借出日期', null=True, blank=True)
@@ -85,10 +86,10 @@ class PassportInformation(models.Model):
 class VisaInformation(models.Model):
     Passport = models.ForeignKey(PassportInformation)
     country = models.CharField(verbose_name='国家', max_length=20)
-    issue_date = models.DateField(verbose_name='颁发日期')
-    expire_date = models.DateField(verbose_name='过期日期')
+    issue_date = models.DateField(verbose_name='颁发日期', null=True, blank=True)
+    expire_date = models.DateField(verbose_name='过期日期', null=True, blank=True)
     visa_class = models.CharField(verbose_name='签证类型', choices=visa_choices, max_length=1)
-    visa_file = models.FileField(verbose_name='签证扫描件', upload_to='upload/%Y/%m/')
+    visa_file = models.FileField(verbose_name='签证扫描件', upload_to='upload/%Y/%M/')
 
     def __str__(self):
         return self.country
