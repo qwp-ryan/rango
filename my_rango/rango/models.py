@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from .choices import *
 from django.db import models
 from django.template.defaultfilters import slugify
-from datetime import timezone
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -93,3 +92,26 @@ class VisaInformation(models.Model):
 
     def __str__(self):
         return self.country
+
+
+class CountryInformation(models.Model):
+    name = models.CharField(verbose_name='国家简称', max_length=20)
+    cash = models.CharField(verbose_name='外汇种类', max_length=1, choices=cash_choices)
+
+    def __str__(self):
+        return self.name
+
+
+class CityInformation(models.Model):
+    country = models.ForeignKey(CountryInformation)
+    city = models.CharField(verbose_name='', max_length=50)
+    short_meal = models.IntegerField(verbose_name='伙食费标准', null=True, blank=True)
+    short_accom = models.IntegerField(verbose_name='住宿费标准', null=True, blank=True)
+    short_work = models.IntegerField(verbose_name='公杂费标准', null=True, blank=True)
+    study_high = models.IntegerField(verbose_name='高级访问标准', null=True, blank=True)
+    study_middle = models.IntegerField(verbose_name='中级访问标准', null=True, blank=True)
+    study_student = models.IntegerField(verbose_name='研究学生标准', null=True, blank=True)
+
+    def __str__(self):
+        return self.city
+

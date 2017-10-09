@@ -1,10 +1,8 @@
-
-
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_rango.settings')
 import django
 django.setup()
-from rango.models import Category, Page, PersonalInformation, PassportInformation, VisaInformation
+from rango.models import *
 
 import pandas as pd
 
@@ -138,12 +136,40 @@ def populate_visa():
     return
 
 
+def populate_country_city():
+    pf = pd.read_excel('fee.xlsx')
+    for index, row in pf.iterrows():
+        p3 = CountryInformation.objects.get_or_create(name=row.country)[0]
+        p3.name = row.country
+        if row.cash == '美元':
+            p3.cash = 1
+        elif row.cash == '欧元':
+            p3.cash = 2
+        elif row.cash == '英镑':
+            p3.cash = 3
+        elif row.cash == '日元':
+            p3.cash = 4
+        p3.save()
+        p4 = CityInformation.objects.get_or_create(country=p3,city=row.city)[0]
+        if row.city=='':
+            p4.city = '所有城市'
+        else:
+            p4.city = row.city
+        p4.short_accom = row.short_accom
+        p4.short_meal = row.short_meal
+        p4.short_work = row.short_work
+        p4.save()
+        print(" %d cities are saved" % (index))
+
+
 
 if __name__ == '__main__':
     print ("Starting Rango population script ...")
 #    populate()
 #    populateforeign()
 #    pupulate_passport()
-    populate_visa()
+#    populate_visa()
+    populate_country_city()
+
 
 
