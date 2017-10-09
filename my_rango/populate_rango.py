@@ -106,14 +106,14 @@ def pupulate_passport():
                 p1.date_expire = row1.date_expire
                 p1.issue_office = row1.issue_office
                 p1.issue_place = row1.issue_place
-                if row1.date_out =='' :
-                    p1.date_out = row1.date_issue
-                else:
-                    p1.date_out = row1.date_out
-                if row1.date_back =='':
-                    p1.date_back = row1.date_issue
-                else:
-                    p1.date.back=row1.date_back
+#                if row1.date_out == '':
+#                    p1.date_out = row1.date_issue
+#                else:
+#                    p1.date_out = row1.date_out
+#                if row1.date_back == '':
+#                    p1.date_back = row1.date_issue
+#                else:
+#                    p1.date_back = row1.date_back
                 p1.save()
                 print(" %d passports are saved" % (index1))
     return
@@ -165,10 +165,10 @@ def populate_country_city():
 
 if __name__ == '__main__':
     print ("Starting Rango population script ...")
-#    populate()
-#    populateforeign()
-#    pupulate_passport()
-#    populate_visa()
+    populate()
+    populateforeign()
+    pupulate_passport()
+    populate_visa()
     populate_country_city()
 
 

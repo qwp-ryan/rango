@@ -46,6 +46,9 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+#class Process_tag(models.Model):
+
+
 class PersonalInformation(models.Model):
     name=models.CharField(verbose_name='姓名', max_length=10)
     tel = models.CharField(verbose_name='电话', max_length=12)
@@ -97,6 +100,7 @@ class VisaInformation(models.Model):
 class CountryInformation(models.Model):
     name = models.CharField(verbose_name='国家简称', max_length=20)
     cash = models.CharField(verbose_name='外汇种类', max_length=1, choices=cash_choices)
+    visa_requirement = models.TextField(verbose_name='办理签证所需材料')
 
     def __str__(self):
         return self.name
@@ -113,5 +117,73 @@ class CityInformation(models.Model):
     study_student = models.IntegerField(verbose_name='研究学生标准', null=True, blank=True)
 
     def __str__(self):
-        return self.city
+        if self.city == '所有城市':
+            return self.country.name
+        else:
+            return self.country.name+' - '+self.city
+
+
+class Delegation(models.Model):
+    contact_name = models.OneToOneField(User)
+    contact_mobile = models.CharField(max_length=11)
+    title = models.CharField(max_length=128)
+    title_en = models.CharField(verbose_name='英文项目名称', max_length=200)
+    destination = models.ManyToManyField(CityInformation, verbose_name='出访目的地')
+    time_leave = models.DateField(verbose_name='离开中国国境日期', )
+    time_back = models.DateField(verbose_name='返回中国国境日期', )
+    Members = models.ManyToManyField(PersonalInformation, verbose_name='出访人员')
+    Task = models.CharField(verbose_name='出访目的', max_length=500)
+    mission = models.CharField(verbose_name='出访任务', max_length=1000)
+    research_delegation = models.CharField(
+        max_length=1,
+        verbose_name='是否为教学科研团组',
+        choices=delegation_choices,
+        default='A',
+    )
+    delegation_tag = models.CharField(
+        max_length=2,
+        verbose_name='团组类型',
+        choices=delegation_tag_choices,
+    )
+
+    time_arrangement = models.CharField(verbose_name='详细日程安排', max_length=1000)
+    finace_support = models.CharField(verbose_name='课题卡号, 多个课题卡以分号隔开', max_length=100)
+    budget_abroad = models.IntegerField(verbose_name='境外预算')
+    budget_internal = models.IntegerField(verbose_name='国内预算')
+    process = models.CharField(verbose_name='团组进程', choices = process_tag, max_length=2)
+    unexpected = models.CharField(verbose_name='团组特殊情况', max_length=1, choices=unexpected_tag)
+    log = models.TextField(verbose_name='进度记录', blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Permission(models.Model):
+    delegation = models.ForeignKey(Delegation)
+    inner_permit = models.FileField(verbose_name='所内审批表扫描件', upload_to='upload/%Y/%m/')
+    cas_permit = models.FileField(verbose_name='院批件', upload_to='upload/%Y/%m/')
+    cas_permit_number = models.CharField(verbose_name='院批件文号', max_length=20)
+
+
+class TimeTable(models.Model):
+    delegation = models.ForeignKey(Delegation)
+    submit_time = models.DateField(verbose_name='提交申请时间')
+    public_time = models.DateField(verbose_name='公示时间')
+    arp_input = models.DateField(verbose_name='arp填写时间')
+    inner_permit = models.DateField(verbose_name='所内审批时间')
+    arp_to_cas = models.DateField(verbose_name='arp上报时间')
+    cas_permit = models.DateField(verbose_name='批件下达时间')
+    finger_print_date = models.DateField(verbose_name='外办留指纹时间')
+    new_passport_date = models.DateField(verbose_name='办理新护照时间')
+    visa_infee_date = models.DateField(verbose_name='交签证费时间')
+    visa_in_date = models.DateField(verbose_name='送办签证时间')
+    visa_finger_date = models.DateField(verbose_name='领馆留指纹时间')
+    visa_out_date = models.DateField(verbose_name='获得批件时间')
+    visa_fee_date = models.DateField(verbose_name='退还签证费时间')
+    cash_date = models.DateField(verbose_name='申请外事借款时间')
+    summary_date = models.DateField(verbose_name='提交总结时间')
+    summary_pub_date = models.DateField(verbose_name='事后公示时间')
+    passport_back_date = models.DateField(verbose_name='归还护照时间')
+    cash_check_date = models.DateField(verbose_name='外汇核销时间')
+    rmb_reimburse_date = models.DateField(verbose_name='完成报销时间')
 
