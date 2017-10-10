@@ -128,12 +128,13 @@ class Delegation(models.Model):
     contact_mobile = models.CharField(max_length=11)
     title = models.CharField(max_length=128)
     title_en = models.CharField(verbose_name='英文项目名称', max_length=200)
+    country = models.ManyToManyField(CountryInformation, verbose_name='出访国家')
     destination = models.ManyToManyField(CityInformation, verbose_name='出访目的地')
     time_leave = models.DateField(verbose_name='离开中国国境日期', )
     time_back = models.DateField(verbose_name='返回中国国境日期', )
     Members = models.ManyToManyField(PersonalInformation, verbose_name='出访人员')
-    Task = models.CharField(verbose_name='出访目的', max_length=500)
-    mission = models.CharField(verbose_name='出访任务', max_length=1000)
+    Task = models.CharField(verbose_name='出访目的250字', max_length=500)
+    mission = models.CharField(verbose_name='出访任务500字', max_length=1000)
     research_delegation = models.CharField(
         max_length=1,
         verbose_name='是否为教学科研团组',
@@ -145,17 +146,30 @@ class Delegation(models.Model):
         verbose_name='团组类型',
         choices=delegation_tag_choices,
     )
-
     time_arrangement = models.CharField(verbose_name='详细日程安排', max_length=1000)
-    finace_support = models.CharField(verbose_name='课题卡号, 多个课题卡以分号隔开', max_length=100)
+    finacial = models.CharField(verbose_name='课题卡号, 多个课题卡以分号隔开', max_length=100)
     budget_abroad = models.IntegerField(verbose_name='境外预算')
     budget_internal = models.IntegerField(verbose_name='国内预算')
-    process = models.CharField(verbose_name='团组进程', choices = process_tag, max_length=2)
-    unexpected = models.CharField(verbose_name='团组特殊情况', max_length=1, choices=unexpected_tag)
+    process = models.CharField(verbose_name='团组进程', choices = process_tag, max_length=2, default='01')
+    unexpected = models.CharField(verbose_name='团组特殊情况', max_length=1, choices=unexpected_tag, default='1')
     log = models.TextField(verbose_name='进度记录', blank=True)
 
     def __str__(self):
         return self.title
+
+
+class InvitationInformation(models.Model):
+    delegation = models.ForeignKey(Delegation)
+    time_start = models.DateField(verbose_name='邀请信上开始时间')
+    time_end = models.DateField(verbose_name='邀请信上结束时间')
+#    member = models.ManyToManyField(Delegation.Members, verbose_name='被邀请人')
+    invitor = models.CharField(verbose_name='邀请人', max_length=100)
+    tel = models.CharField(verbose_name='邀请方电话',max_length=30)
+    address = models.CharField(verbose_name='邀请方英文地址', max_length=400)
+    Institue_CH = models.CharField(verbose_name='邀请单位中文名称', max_length=200)
+    Insitute_EN = models.CharField(verbose_name='邀请单位英文名称', max_length=200)
+    invitation_letter = models.FileField(verbose_name='', upload_to='upload/%Y/%m/')
+
 
 
 class Permission(models.Model):
