@@ -38,9 +38,9 @@ def populate():
             "Other Framworks":{"pages":other_pages},}
 
     for cat, cat_data in cats.items():
-        c=add_cat(cat)
+        c = add_cat(cat)
         for p in cat_data["pages"]:
-            add_page(c,p["title"],p["url"])
+            add_page(c, p["title"], p["url"])
 
     for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
@@ -48,15 +48,15 @@ def populate():
 
 
 def add_page(cat, title, url, views=0):
-    p=Page.objects.get_or_create(category=cat, title=title)[0]
-    p.url=url
-    p.views=views
+    p = Page.objects.get_or_create(category=cat, title=title)[0]
+    p.url = url
+    p.views = views
     p.save()
     return p
 
 
 def add_cat(name):
-    c=Category.objects.get_or_create(name=name)[0]
+    c = Category.objects.get_or_create(name=name)[0]
     if c.name == "Python":
         c.views=128
         c.likes=64
