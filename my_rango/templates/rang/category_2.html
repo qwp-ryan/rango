@@ -1,0 +1,26 @@
+{% extends 'rang/base1.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {{delegation.title}}
+{% endblock %}
+
+{% block body_block %}
+    {% if deldgation %}
+    <!--        <h1>{{ category.name }}</h1>  -->
+        <strong></strong>
+        {% if pages %}
+            <ul>
+                {% for page in pages %}
+                    <li><a href="{{page.url}}">{{page.title}}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No pages currently in category.</strong>
+        {% endif %}
+        <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
+    {% else %}
+        The specified category does note exist!
+    {% endif %}
+{% endblock %}
+

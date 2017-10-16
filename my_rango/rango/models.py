@@ -121,7 +121,7 @@ class CityInformation(models.Model):
 
 
 class Delegation(models.Model):
-    contact_name = models.OneToOneField(User)
+    contact_name = models.ManyToManyField(User)
     contact_mobile = models.CharField(max_length=11)
     title = models.CharField(max_length=128)
     title_en = models.CharField(verbose_name='英文项目名称', max_length=200)

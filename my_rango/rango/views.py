@@ -14,6 +14,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 
+from .New_view import *
+
 
 def index(Request):
 #    Request.session.set_test_cookie()
