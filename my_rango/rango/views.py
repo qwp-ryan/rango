@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from datetime import datetime
 
-from .New_view import *
+
 
 
 def index(Request):
@@ -245,3 +245,4 @@ def add_visa(request, passport_number):
     return render(request,'rang/add_visa.html',context_dict)
 
 
+from .New_view import *

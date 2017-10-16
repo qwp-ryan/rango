@@ -6,13 +6,16 @@
 {% endblock %}
 
 {% block body_block %}
-    {% if deldgation %}
+    {% if delegation %}
     <!--        <h1>{{ category.name }}</h1>  -->
-        <strong></strong>
-        {% if pages %}
+        <strong><li>{{delegation.time_leave}}</li></strong>
+        {% if delegation.Members %}
             <ul>
-                {% for page in pages %}
-                    <li><a href="{{page.url}}">{{page.title}}</a></li>
+                {% for member in delegation.Members %}
+                    <li>{{member.name}}</li>
+                {% endfor %}
+                {% for country in delegation.country %}
+                    <li>{{country.name}}</li>
                 {% endfor %}
             </ul>
         {% else %}
