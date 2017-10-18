@@ -13,14 +13,10 @@ Rango
     <ul>
         {% for delegation in delegations %}
         <li>
-            <a>{{delegation.slug}}</a>
-
-            <!--<a href = "{%url 'rango:DelegationProcess' delegation.slug%}"> {{delegation.title}} </a>
-               #.name+delegation.time_leave.strftime('%Y-%m-%d')+delegation.Members.all.name}}</a> -->
+            <a>{{delegation.title}}</a>
         </li>
         {% endfor %}
     </ul>
-
     {% else %}
         <strong> There are no delegation present. </strong>
     {% endif %}
@@ -28,3 +24,8 @@ Rango
 
 
 {% endblock %}
+
+
+
+            <!--<a href = "{%url 'rango:DelegationProcess' delegation.slug%}"> {{delegation.title}} </a>
+               #.name+delegation.time_leave.strftime('%Y-%m-%d')+delegation.Members.all.name}}</a> -->

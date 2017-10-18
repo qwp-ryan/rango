@@ -10,7 +10,7 @@ from django.shortcuts import render
 
 
 def ShowDelegation(Request):#这个view要把所有的团组列出来，普通人只能看到自己参加的和自己填报的团组情况
-    Delegation_list = Delegation.objects.order_by('-time_leave')
+    Delegation_list = Delegation.objects.order_by('-time_leave')[:]
 #    Delegation_list = Delegation.objects.all(Delegation.time_leave-timezone.now)
     context_dict = {'delegations': Delegation_list}
     response = render(Request, 'rang/index_2.html', context_dict)
