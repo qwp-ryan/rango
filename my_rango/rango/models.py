@@ -150,16 +150,25 @@ class Delegation(models.Model):
     process = models.CharField(verbose_name='团组进程', choices=process_tag, max_length=2, default='01')
     unexpected = models.CharField(verbose_name='团组特殊情况', max_length=1, choices=unexpected_tag, default='1')
     log = models.TextField(verbose_name='进度记录', blank=True)
+    sign = models.CharField(verbose_name='标识', blank= True, max_length=200)
 
-    def save(self, *args, **kwargs):
-        self.slug=slugify(self.country.all()[0].name+''+self.time_leave.strftime('%Y-%m-%d')+''+self.Members.all()[0].name)
-        #[0]+self.Members[0]+self.time_leave  将date格式转换成了string格式，以便成为slug
-        #引用方法请注意，self.country.all()[0].name
-        super(Delegation,self).save(*args,**kwargs)
+#    def save(self, *args, **kwargs):
+#        self.slug = self.country.all()[0].name+'-'+self.time_leave.strftime('%Y-%m-%d')+'-'+self.Members.all()[0].name
+#        #[0]+self.Members[0]+self.time_leave  将date格式转换成了string格式，以便成为slug
+#        #引用方法请注意，self.country.all()[0].name
+#        super(Delegation,self).save(*args,**kwargs)
 
     def __str__(self):
-        return self.country.all()[0].name+''+self.time_leave.strftime('%Y-%m-%d')+''+self.Members.all()[0].name  #self.country[0]+self.Members[0]+
+        countries = ''
+        for coun in self.country.all():
+            countries=countries+coun.name
+        mem = ''
+        for men in self.Members.all():
+            mem=mem+men.name
+
+        self.sign = countries+'-'+mem+'-'+self.time_leave.strftime('%Y-%m-%d')  #self.country[0]+self.Members[0]+
         #return self.slug  错误的，另一个函数中定义的，这个不能用。
+        return self.sign
 
 
 class InvitationInformation(models.Model):
