@@ -18,12 +18,20 @@ def ShowDelegation(Request):#这个view要把所有的团组列出来，普通�
     return response
 
 
-def DelegationProcess(Request, delegation_slug):
+def DelegationProcess(Request, delegation):
 #这个view想要把一个团组的整个申请填报流程都展现出来，每一步的信息全都表现出来。
     context_dict = {}
+    names = []
     passport = []
+    country_names = []
+
     try:
-        Deleg = Delegation.objects.get(slug=delegation_slug)
+        Deleg = Delegation.objects.get(delegation=delegation)
+        for men in Deleg.Members.all():
+            names.append(men.name)
+        for countries in Delegation.country():
+            country_names.append(countries.name)
+        
         members.append(Delegation.Members.objects.filter())
 #        for members in Deleg.Members:
 #            passport.append(PassportInformation.object.filter(person=members))

@@ -13,7 +13,7 @@ Rango
     <ul>
         {% for delegation in delegations %}
         <li>
-            <a>{{delegation}}</a>
+            <a  href="{%url 'rango:DelegationProcess' delegation%}">{{delegation}}</a>
         </li>
         {% endfor %}
     </ul>
